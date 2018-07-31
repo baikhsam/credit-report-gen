@@ -17,7 +17,7 @@ Dim ucredit As Long
 ucredit = 0
 Set ws = Sheets.Add
 Dim today As Variant
-today = InputBox("Enter the date from which you would like to see upcoming transactions:", "Enter Date", Format(Date, "dd/mmm/yyyy"))
+            today = InputBox("Enter the date from which you would like to see upcoming transactions (DD/M/YY):", "Enter Date", Format(Date, "dd/mmm/yyyy"))
 today = Format(today, "dd/m/yyyy")
 
 'Getting credit line information for specified account
