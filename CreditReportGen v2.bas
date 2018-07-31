@@ -1,6 +1,4 @@
-Attribute VB_Name = "Module1"
 Sub CreditReportGenerator()
-Attribute CreditReportGenerator.VB_ProcData.VB_Invoke_Func = " \n14"
 'HongSeok (Sam) Baik for Global Energy Trading Ltd
 '7/30/2018
 'Macro created to generate credit summary report from a given data excel file
@@ -19,7 +17,9 @@ Dim ucredit As Long
 ucredit = 0
 Set ws = Sheets.Add
 Dim today As Variant
-today = "1-April-18"
+today = InputBox("Enter the date from which you would like to see upcoming transactions:", "Enter Date", Format(Date, "dd/mmm/yyyy"))
+today = Format(today, "dd/m/yyyy")
+
 'Getting credit line information for specified account
 On Error GoTo CreditInput
 'if credit data worksheet DNE then ask for user input
@@ -99,7 +99,7 @@ ws.Range("A3") = acc & " Credit Summary:"
 ws.Range("G3") = "Initial Credit Line:"
 ws.Range("A4") = "Credit used:"
 ws.Range("D4") = "Credit available:"
-ws.Range("A7") = "Upcoming Transactions beginning from " & today
+ws.Range("A7") = "Upcoming Transactions beginning from " & Format(today, "dd/mmm/yyyy")
 ws.Range("A8") = "TRAN DATE:"
 ws.Range("B8") = "'S or P/NO:"
 ws.Range("C8") = "BARGE:"
@@ -157,7 +157,7 @@ datedistance = 0
 Do While data.Cells(i, 2).Value <> ""
     If data.Range("B" & row) = "PURCHASES" Then
         If data.Range("F" & row) = acc Then
-            datedistance = datediff("d", today, FormatDateTime(data.Range("U" & row), vbShortDate))
+            datedistance = datediff("d", today, Format(data.Range("U" & row), "dd/mmm/yyyy"))
             If datedistance >= 0 Then
                 ws.Range("A" & crow) = Format(data.Range("I" & row), "dd/mmm/yyyy")
                 ws.Range("B" & crow) = data.Range("D" & row)
@@ -203,5 +203,7 @@ ws.Range("A2").Select
 ws.Range("A20:A500").AutoFilter 1, "<>", , , False
 ws.Range("A5") = "=SUM(G9:G500)"
 ws.Range("D5") = "=G5-A5"
+'ws.Range("B:B").EntireColumn.Insert
+'ws.Range("B8") = "TYPE REMKS"
 Application.ScreenUpdating = True
 End Sub
