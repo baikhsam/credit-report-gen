@@ -17,7 +17,7 @@ Dim ucredit As Long
 ucredit = 0
 Set ws = Sheets.Add
 Dim today As Variant
-            today = InputBox("Enter the date from which you would like to see upcoming transactions (DD/M/YY):", "Enter Date", Format(Date, "dd/mmm/yyyy"))
+today = InputBox("Enter the date from which you would like to see upcoming transactions:(DD/M/YY)", "Enter Date", Format(Date, "dd/m/yyyy"))
 today = Format(today, "dd/m/yyyy")
 
 'Getting credit line information for specified account
@@ -157,7 +157,7 @@ datedistance = 0
 Do While data.Cells(i, 2).Value <> ""
     If data.Range("B" & row) = "PURCHASES" Then
         If data.Range("F" & row) = acc Then
-            datedistance = datediff("d", today, Format(data.Range("U" & row), "dd/mmm/yyyy"))
+            datedistance = datediff("d", today, data.Range("U" & row))
             If datedistance >= 0 Then
                 ws.Range("A" & crow) = Format(data.Range("I" & row), "dd/mmm/yyyy")
                 ws.Range("B" & crow) = data.Range("D" & row)
@@ -203,7 +203,9 @@ ws.Range("A2").Select
 ws.Range("A20:A500").AutoFilter 1, "<>", , , False
 ws.Range("A5") = "=SUM(G9:G500)"
 ws.Range("D5") = "=G5-A5"
+
 'ws.Range("B:B").EntireColumn.Insert
 'ws.Range("B8") = "TYPE REMKS"
+
 Application.ScreenUpdating = True
 End Sub
