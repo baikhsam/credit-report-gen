@@ -41,13 +41,12 @@ ElseIf craccrange Is Nothing Then
 End If
 Dim i As Integer
 i = 2
-Do While crdata.Cells(i, 1).Value <> ""
+Do While crdata.Cells(i, craccrange.Column).Value <> ""
     If crdata.Cells(i, craccrange.Column) = acc Then
         icredit = crdata.Cells(i, crdatarange.Column)
     End If
     i = i + 1
 Loop
-
 If crdata Is Nothing Then
 CreditInput:
     icredit = InputBox("What is the initial credit line of " & acc & " ?", "Input Initial Credit", 5000000)
