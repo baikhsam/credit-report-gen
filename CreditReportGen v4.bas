@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "Credit"
 Sub CreditReportGenerator()
 'HongSeok (Sam) Baik for Global Energy Trading Ltd
 '7/30/2018
@@ -275,7 +275,6 @@ If rtype = 3 Then
     Selection.NumberFormat = "#,##0.000"
     Selection.FormatConditions.Add Type:=xlTextString, String:=".", _
         TextOperator:=xlContains
-    Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
     Selection.FormatConditions(1).StopIfTrue = True
 End If
 'Adding commas and 3 decimal points
@@ -283,23 +282,35 @@ ws.Range("D9:H500").Select
 Selection.NumberFormat = "#,##0.000"
 Selection.FormatConditions.Add Type:=xlTextString, String:=".", _
     TextOperator:=xlContains
-Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
 Selection.FormatConditions(1).StopIfTrue = True
 'Adding commas and 3 decimal points
 ws.Range("G5").Select
 Selection.NumberFormat = "#,##0.000"
 Selection.FormatConditions.Add Type:=xlTextString, String:=".", _
     TextOperator:=xlContains
-Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
 Selection.FormatConditions(1).StopIfTrue = True
 'Adding commas and 3 decimal points
 ws.Range("A5:D5").Select
 Selection.NumberFormat = "#,##0.000"
 Selection.FormatConditions.Add Type:=xlTextString, String:=".", _
     TextOperator:=xlContains
-Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
 Selection.FormatConditions(1).StopIfTrue = True
 ws.Range("A2").Select
+If rtype = 3 Then
+    'negative number formatting, Adding commas and 3 decimals points
+    ws.Range("G9:I501").Select
+    Selection.NumberFormat = "#,##0.00_);[Red](#,##0.00)"
+    Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlLess, _
+        Formula1:="=0"
+    Selection.FormatConditions(1).StopIfTrue = True
+Else
+    'negative number formatting, Adding commas and 3 decimals points
+    ws.Range("G9:H501").Select
+    Selection.NumberFormat = "#,##0.000_);[Red](#,##0.000)"
+    Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlLess, _
+        Formula1:="=0"
+    Selection.FormatConditions(1).StopIfTrue = True
+End If
 'Hiding blank/empty rows
 ws.Range("A20:A500").AutoFilter 1, "<>", , , False
 ws.Range("A5") = "=SUM(G9:G500)"
@@ -346,7 +357,10 @@ Else
 End If
 ws.Range("D1").Font.Bold = True
 ws.Range("D1").Font.Size = 13
+ws.Copy
+Application.DisplayAlerts = False
+ws.Delete
+Application.DisplayAlerts = True
 Application.ScreenUpdating = True
-
 End Sub
 
